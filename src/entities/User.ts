@@ -1,6 +1,8 @@
-import { User } from "./../../generated/schema";
+import { StakingContract, Token, User, Wallet } from "./../../generated/schema";
 import { Address, BigDecimal, BigInt, log } from "@graphprotocol/graph-ts";
 import { ensureWallet } from "./Wallet";
+import { ensureToken } from "./Token";
+import { toBigDecimal } from "../utils/toBigDecimal";
 
 export function createUser(
   address: Address,
@@ -8,9 +10,9 @@ export function createUser(
   isWhitelisted: boolean,
   timestamp: BigInt
 ): void {
-  let dbWallet = ensureWallet(address, timestamp);
+  let dbWallet: Wallet = ensureWallet(address, timestamp);
 
-  let dbUser = new User(address.toHex());
+  let dbUser: User = new User(address.toHex());
   dbUser.defaultWallet = dbWallet.id;
   dbUser.preferredWallet = dbWallet.id;
   dbUser.isEmployee = isEmployee;
@@ -36,7 +38,10 @@ export function updatePreferredWallet(
   newPreferredWalletAddress: Address,
   timestamp: BigInt
 ): void {
-  let dbOldPreferredWallet = ensureWallet(oldPreferredWalletAddress, timestamp);
+  let dbOldPreferredWallet: Wallet = ensureWallet(
+    oldPreferredWalletAddress,
+    timestamp
+  );
   let dbUser = User.load(dbOldPreferredWallet.user);
 
   if (!dbUser) {
@@ -44,7 +49,10 @@ export function updatePreferredWallet(
     return;
   }
 
-  let dbPreferredWallet = ensureWallet(newPreferredWalletAddress, timestamp);
+  let dbPreferredWallet: Wallet = ensureWallet(
+    newPreferredWalletAddress,
+    timestamp
+  );
   dbUser.preferredWallet = dbPreferredWallet.id;
   dbUser.save();
 }
@@ -58,5 +66,37 @@ export function removeUserFromWhitelist(address: Address): void {
   }
 
   dbUser.isWhitelisted = false;
+  dbUser.save();
+}
+
+export function increaseUserStakeBy(
+  stakingContractAddress: Address,
+  walletAddress: Address,
+  value: BigInt,
+  timestamp: BigInt
+): void {
+  let dbWallet: Wallet = ensureWallet(walletAddress, timestamp);
+  let dbUser = User.load(dbWallet.user);
+  let dbContract = StakingContract.load(stakingContractAddress.toHex());
+  let dbToken: Token = ensureToken(Address.fromString(dbContract.stakeToken));
+  dbUser.totalStakedBalance = dbUser.totalStakedBalance.plus(
+    toBigDecimal(value, dbToken.decimals)
+  );
+  dbUser.save();
+}
+
+export function decreaseUserStakeBy(
+  stakingContractAddress: Address,
+  walletAddress: Address,
+  value: BigInt,
+  timestamp: BigInt
+): void {
+  let dbWallet: Wallet = ensureWallet(walletAddress, timestamp);
+  let dbUser = User.load(dbWallet.user);
+  let dbContract = StakingContract.load(stakingContractAddress.toHex());
+  let dbToken: Token = ensureToken(Address.fromString(dbContract.stakeToken));
+  dbUser.totalStakedBalance = dbUser.totalStakedBalance.minus(
+    toBigDecimal(value, dbToken.decimals)
+  );
   dbUser.save();
 }
