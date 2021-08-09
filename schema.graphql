@@ -117,7 +117,7 @@ type UnstakeEvent implements IEvent @entity {
 
 type RootAddedEvent implements IEvent @entity {
   id: ID!
-  epoch: BigInt!
+  rewardEpoch: BigInt!
   totalAllocation: BigDecimal!
   depositor: Bytes!
   timestamp: BigInt!
@@ -125,7 +125,7 @@ type RootAddedEvent implements IEvent @entity {
 
 type ClaimedEvent implements IEvent @entity {
   id: ID!
-  epoch: BigInt!
+  rewardEpoch: BigInt!
   wallet: Wallet!
   claimedBalance: BigDecimal!
   timestamp: BigInt!

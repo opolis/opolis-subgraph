@@ -22,7 +22,7 @@
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "epoch",
+        "name": "rewardEpoch",
         "type": "uint256"
       },
       {
@@ -66,7 +66,7 @@
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "epoch",
+        "name": "rewardEpoch",
         "type": "uint256"
       },
       {

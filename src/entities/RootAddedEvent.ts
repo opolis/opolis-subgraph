@@ -17,7 +17,7 @@ export function createRootAddedEvent(event: RootAdded): void {
 
   let dbEvent: RootAddedEvent = new RootAddedEvent(eventId);
   dbEvent.depositor = event.params.depositor;
-  dbEvent.epoch = event.params.epoch;
+  dbEvent.rewardEpoch = event.params.rewardEpoch;
   dbEvent.totalAllocation = toBigDecimal(
     event.params.totalAllocation,
     dbToken.decimals

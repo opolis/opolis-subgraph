@@ -9,7 +9,7 @@ export function createMerkleRedeemContract(
   ownerAddress: Address,
   createdAt: BigInt
 ): void {
-  let contract = MerkleRedeem.bind(contractAddress);
+  let contract: MerkleRedeem = MerkleRedeem.bind(contractAddress);
   let tokenAddressResult = contract.try_token();
   if (tokenAddressResult.reverted) {
     log.critical("token() call (Address) reverted!", []);

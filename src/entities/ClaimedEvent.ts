@@ -23,7 +23,7 @@ export function createClaimedEvent(event: Claimed): void {
 
   let dbEvent: ClaimedEvent = new ClaimedEvent(eventId);
   dbEvent.wallet = dbWallet.id;
-  dbEvent.epoch = event.params.epoch;
+  dbEvent.rewardEpoch = event.params.rewardEpoch;
   dbEvent.claimedBalance = toBigDecimal(event.params.balance, dbToken.decimals);
   dbEvent.save();
 }
