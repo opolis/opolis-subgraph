@@ -25,5 +25,6 @@ export function createClaimedEvent(event: Claimed): void {
   dbEvent.wallet = dbWallet.id;
   dbEvent.rewardEpoch = event.params.rewardEpoch;
   dbEvent.claimedBalance = toBigDecimal(event.params.balance, dbToken.decimals);
+  dbEvent.timestamp = event.block.timestamp;
   dbEvent.save();
 }

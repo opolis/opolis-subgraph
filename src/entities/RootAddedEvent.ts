@@ -22,5 +22,6 @@ export function createRootAddedEvent(event: RootAdded): void {
     event.params.totalAllocation,
     dbToken.decimals
   );
+  dbEvent.timestamp = event.block.timestamp;
   dbEvent.save();
 }
