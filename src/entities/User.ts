@@ -53,6 +53,10 @@ export function updatePreferredWallet(
     newPreferredWalletAddress,
     timestamp
   );
+
+  dbPreferredWallet.user = dbUser.id;
+  dbPreferredWallet.save();
+
   dbUser.preferredWallet = dbPreferredWallet.id;
   dbUser.save();
 }
