@@ -56,7 +56,7 @@ dataSources:
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
         - event: Stake(address,uint256,uint256)
-          handler: handleStack
+          handler: handleStake
         - event: unStake(address,uint256,uint256)
           handler: handleUnstake
       file: ./src/mappings/CommonsEasyStaking.ts
