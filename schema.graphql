@@ -3,12 +3,12 @@
 #################################################
 
 interface IEvent {
-  id: ID!
+  id: ID!  # transactionHash-logId
   timestamp: BigInt!
 }
 
 interface IContract {
-  id: ID!
+  id: ID!  # Contract address
   createdAt: BigInt!
 }
 
@@ -29,7 +29,7 @@ type User @entity {
 }
 
 type Wallet @entity {
-  id: ID!
+  id: ID!  # wallet address
   user: User!
   createdAt: BigInt!
 }
@@ -69,6 +69,7 @@ type MerkleRedeemContract implements IContract @entity {
   owner: Bytes!
   rewardToken: Token!
   totalRewardCycles: BigInt!
+  totalTokenAllocation: BigDecimal!
   createdAt: BigInt!
 }
 

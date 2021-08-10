@@ -6,7 +6,8 @@ import { MerkleRedeemContract } from "./../../generated/schema";
 import { OwnershipTransferred } from "../../generated/MerkleRedeem/MerkleRedeem";
 import {
   createMerkleRedeemContract,
-  increaseTotalRewardCycles
+  increaseTotalRewardCycles,
+  increaseTotalTokenAllocationBy
 } from "../entities/MerkleRedeemContract";
 import { createRootAddedEvent } from "../entities/RootAddedEvent";
 import { createClaimedEvent } from "../entities/ClaimedEvent";
@@ -27,6 +28,7 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {
 }
 
 export function handleRootAdded(event: RootAdded): void {
+  increaseTotalTokenAllocationBy(event.address, event.params.totalAllocation);
   createRootAddedEvent(event);
 }
 
