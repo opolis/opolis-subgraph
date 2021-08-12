@@ -15,7 +15,7 @@ export function createUser(
   isEmployee: boolean,
   isWhitelisted: boolean,
   timestamp: BigInt
-): void {
+): User {
   let dbWallet: Wallet = ensureWallet(address, timestamp);
 
   let dbUser: User = new User(address.toHex());
@@ -27,6 +27,7 @@ export function createUser(
   dbUser.totalStakedBalance = BigDecimal.fromString("0");
   dbUser.totalRewardClaimed = BigDecimal.fromString("0");
   dbUser.save();
+  return dbUser;
 }
 
 export function isEmployee(address: Address): boolean {
@@ -119,6 +120,9 @@ export function increaseRewardClaimedBy(
 ): void {
   let dbWallet: Wallet = ensureWallet(walletAddress, timestamp);
   let dbUser = User.load(dbWallet.user);
+  if (!dbUser) {
+    dbUser = createUser(walletAddress, false, false, timestamp);
+  }
   let dbContract = MerkleRedeemContract.load(
     merkleRedeemContractAddress.toHex()
   );
