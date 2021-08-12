@@ -16,6 +16,11 @@ export function createMerkleRedeemContract(
     log.critical("token() call (Address) reverted!", []);
   }
   let dbToken: Token = ensureToken(tokenAddressResult.value);
+  if (dbToken.id == "Unknown") {
+    log.critical("stakeToken: {} isn't standard ERC20 token!", [
+      tokenAddressResult.value.toHex()
+    ]);
+  }
 
   let dbContract = new MerkleRedeemContract(contractAddress.toHex());
   dbContract.createdAt = createdAt;
