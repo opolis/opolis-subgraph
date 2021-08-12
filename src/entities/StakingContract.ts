@@ -23,6 +23,12 @@ export function createStakingContract(
     log.critical("stakeTokenAddress() call (Address) reverted!", []);
   }
   let stakeToken: Token = ensureToken(stakeTokenAddressResult.value);
+  if (stakeToken.id == "Unknown") {
+    log.critical("stakeToken: {} isn't standard ERC20 token!", [
+      stakeTokenAddressResult.value.toHex()
+    ]);
+  }
+
   dbContract.stakeToken = stakeToken.id;
 
   // store minStake

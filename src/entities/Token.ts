@@ -1,4 +1,4 @@
-import { Address } from "@graphprotocol/graph-ts";
+import { Address, BigInt } from "@graphprotocol/graph-ts";
 import { Token } from "../../generated/schema";
 import { ERC20 } from "../utils/ERC20";
 
@@ -13,7 +13,17 @@ export function ensureToken(address: Address): Token {
   dbToken.symbol = token.symbol;
   dbToken.decimals = token.decimals;
   dbToken.totalSupply = token.totalSupply;
-  dbToken.save();
+
+  if (
+    token.decimals == -1 ||
+    token.totalSupply == BigInt.fromString("-1") ||
+    token.symbol == "Unknown" ||
+    token.name == "Unknown"
+  ) {
+    dbToken.id = "Unknown";
+  } else {
+    dbToken.save();
+  }
 
   return dbToken as Token;
 }
