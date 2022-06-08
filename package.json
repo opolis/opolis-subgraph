@@ -18,9 +18,7 @@
     "deploy:harmony": "graph deploy --product hosted-service wswarren12/opolis-subgraph-harmony --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "deploy:mumbai": "graph deploy --product hosted-service wswarren12/opolis-work-mumbai-hosted --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "deploy:mainnet": "graph deploy --product hosted-service wswarren12/opolis-mainnet --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
-    "deploy:local": "graph deploy opolis/opolis-work-local --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
-    "create-harmony": "graph create --node https://graph.t.hmny.io:8020 harmony/blocks",
-    "deploy-harmony": "graph deploy --node https://graph.t.hmny.io:8020 --ipfs http://graph.t.hmny.io:5001 harmony/blocks"
+    "deploy:local": "graph deploy opolis/opolis-work-local --ipfs http://localhost:5001 --node http://127.0.0.1:8020"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.25.1",

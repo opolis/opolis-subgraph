@@ -14,13 +14,13 @@ export class ERC20 {
   }
   get name(): string {
     if (this.address == ethAddressConverted) {
-      return "Ethereum";
+      return "Harmony";
     }
     return getName(this.address);
   }
   get symbol(): string {
     if (this.address == ethAddressConverted) {
-      return "ETH";
+      return "ONE";
     }
     return getSymbol(this.address);
   }

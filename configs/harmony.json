@@ -1,7 +1,7 @@
 {
     "network": "harmony",
     "opolisPay_contract": "0x0000000000000000000000000000000000000000",
-    "opolisPay_startBlock": 26718818,
+    "opolisPay_startBlock": 26698300,
     "opolisPayV2_contract": "0xA6E644c1bBb0Dbb48Db66489FfC1Bc7538cF6B18",
-    "opolisPayV2_startBlock": 26718818
+    "opolisPayV2_startBlock": 26698300
   }
