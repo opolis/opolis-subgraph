@@ -3,6 +3,8 @@ import { OpolisPayContract, Stake } from "../../generated/schema";
 import { toBigDecimal } from "../utils/toBigDecimal";
 import { ensureToken, ethAddress } from "./Token";
 
+let nullAddress = new Address (0x0000000000000000000000000000000000000000);
+
 export function createStake(
   id: BigInt,
   token: Address,
@@ -59,9 +61,17 @@ export function withdrawStake(
       dbContract.version.toString()
   );
   if (!dbStake) {
-    log.critical("withdrawStake: stake with stakeId: {} doesn't exist!", [
-      id.toString()
-    ]);
+    createStake(
+      id,
+      nullAddress,
+      new BigInt(1),
+      nullAddress,
+      stakeNumber,
+      new BigInt(1),
+      new BigInt(1),
+      contractAddress,
+      contractAddress
+    );
     return;
   }
 

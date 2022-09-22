@@ -45,11 +45,11 @@ type Token @entity {
 type Payroll @entity {
   id: ID! # payrollId
   payrollId: BigInt!
-  payor: Bytes! # address of the payor
-  token: Token!
-  amount: BigDecimal!
-  createdAt: BigInt!
-  txHash: Bytes!
+  payor: Bytes # address of the payor
+  token: Token
+  amount: BigDecimal
+  createdAt: BigInt
+  txHash: Bytes
   withdrawnAt: BigInt
   contract: OpolisPayContract!
 }
@@ -57,12 +57,12 @@ type Payroll @entity {
 type Stake @entity {
   id: ID! # memberId (stakeId)
   memberId: BigInt!
-  staker: Bytes! # address of the payor
-  token: Token!
-  amount: BigDecimal!
+  staker: Bytes # address of the payor
+  token: Token
+  amount: BigDecimal
   stakeNumber: BigInt!
-  createdAt: BigInt!
-  txHash: Bytes!
+  createdAt: BigInt
+  txHash: Bytes
   withdrawnAt: BigInt
   contract: OpolisPayContract!
 }

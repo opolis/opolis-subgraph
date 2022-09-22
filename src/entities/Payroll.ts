@@ -25,12 +25,18 @@ export function createPayroll(
   dbPayroll.save();
 }
 
-export function withdrawPayroll(id: BigInt, withdrawnAt: BigInt): void {
+export function withdrawPayroll(id: BigInt, amount: BigInt, withdrawnAt: BigInt, address: Address): void {
   let dbPayroll = Payroll.load(id.toString());
   if (!dbPayroll) {
-    log.critical("withdrawPayroll: payroll with payrollId: {} doesn't exist!", [
-      id.toString()
-    ]);
+    createPayroll(
+      id,
+      address,
+      amount,
+      address,
+      withdrawnAt,
+      address,
+      address
+    );
     return;
   }
 

@@ -113,7 +113,7 @@ export function handlePaid(event: Paid): void {
 }
 
 export function handleOpsPayrollWithdraw(event: OpsPayrollWithdraw): void {
-  withdrawPayroll(event.params.payrollId, event.block.timestamp);
+  withdrawPayroll(event.params.payrollId, event.params.amount, event.block.timestamp, event.address);
   createOpsPayrollWithdrawEvent(event);
 }
 
