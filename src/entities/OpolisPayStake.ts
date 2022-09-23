@@ -59,7 +59,7 @@ export function withdrawStake(
       dbContract.version.toString()
   );
   if (!dbStake) {
-    log.critical("withdrawStake: stake with stakeId: {} doesn't exist!", [
+    log.error("withdrawStake: stake with stakeId: {} doesn't exist!", [
       id.toString()
     ]);
     return;
