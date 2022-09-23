@@ -16,32 +16,108 @@ export function createStake(
   txHash: Bytes,
   contractAddress: Bytes
 ): void {
+  log.info("Inputs are correct {}", 
+    [id.toHexString(), 
+    token.toHexString(), 
+    amount.toHexString(), 
+    staker.toHexString(),
+    stakeNumber.toHexString(),
+    createdAt.toHexString(),
+    value.toHexString(),
+    txHash.toHexString(),
+    contractAddress.toHexString()
+  ])
+
+  log.info("Contract Address is right address {}", [contractAddress.toHexString()])
+
   let dbContract = OpolisPayContract.load(
     contractAddress.toHex()
   ) as OpolisPayContract;
-  let dbStake = new Stake(
-    id.toString() +
-      "-" +
-      stakeNumber.toString() +
-      "-" +
-      dbContract.version.toString()
-  );
-  let dbToken = ensureToken(token);
-  dbStake.memberId = id;
-  if (token.toHex() == ethAddress.toLowerCase()) {
-    dbStake.amount = toBigDecimal(value, dbToken.decimals);
-    dbStake.withdrawnAt = createdAt;
-  } else {
-    dbStake.amount = toBigDecimal(amount, dbToken.decimals);
-  }
-  dbStake.staker = staker;
-  dbStake.token = dbToken.id;
-  dbStake.stakeNumber = stakeNumber;
-  dbStake.createdAt = createdAt;
-  dbStake.txHash = txHash;
-  dbStake.contract = contractAddress.toHex();
 
-  dbStake.save();
+  if (!dbContract){
+    log.critical("Contract is missing", [id.toString()])
+    let dbStake = new Stake(
+      id.toString() +
+        "-" +
+        stakeNumber.toString() +
+        "-" +
+        BigInt.fromI32(2).toString()
+    );
+    let dbToken = ensureToken(token);
+
+    log.info("Token works", [dbToken.symbol.toString()])
+  
+    dbStake.memberId = id;
+    if (token.toHex() == ethAddress.toLowerCase()) {
+      dbStake.amount = toBigDecimal(value, dbToken.decimals);
+      dbStake.withdrawnAt = createdAt;
+    } else {
+      dbStake.amount = toBigDecimal(amount, dbToken.decimals);
+    }
+    dbStake.staker = staker;
+    dbStake.token = dbToken.id;
+    dbStake.stakeNumber = stakeNumber;
+    dbStake.createdAt = createdAt;
+    dbStake.txHash = txHash;
+    dbStake.contract = contractAddress.toHex();
+  
+    dbStake.save();
+
+
+  } else {
+
+    let dbStake = new Stake(
+      id.toString() +
+        "-" +
+        stakeNumber.toString() +
+        "-" +
+        dbContract.version.toString()
+    );
+
+    let dbToken = ensureToken(token);
+
+    log.info("Token works", [dbToken.symbol.toString()])
+  
+    dbStake.memberId = id;
+    if (token.toHex() == ethAddress.toLowerCase()) {
+      dbStake.amount = toBigDecimal(value, dbToken.decimals);
+      dbStake.withdrawnAt = createdAt;
+    } else {
+      dbStake.amount = toBigDecimal(amount, dbToken.decimals);
+    }
+    dbStake.staker = staker;
+    dbStake.token = dbToken.id;
+    dbStake.stakeNumber = stakeNumber;
+    dbStake.createdAt = createdAt;
+    dbStake.txHash = txHash;
+    dbStake.contract = contractAddress.toHex();
+  
+    dbStake.save();
+
+  }
+
+  log.info("Contract is loaded {}", [dbContract.destination.toHexString()]);
+
+  
+  // let dbToken = ensureToken(token);
+
+  // log.info("Token works", [dbToken.symbol.toString()])
+
+  // dbStake.memberId = id;
+  // if (token.toHex() == ethAddress.toLowerCase()) {
+  //   dbStake.amount = toBigDecimal(value, dbToken.decimals);
+  //   dbStake.withdrawnAt = createdAt;
+  // } else {
+  //   dbStake.amount = toBigDecimal(amount, dbToken.decimals);
+  // }
+  // dbStake.staker = staker;
+  // dbStake.token = dbToken.id;
+  // dbStake.stakeNumber = stakeNumber;
+  // dbStake.createdAt = createdAt;
+  // dbStake.txHash = txHash;
+  // dbStake.contract = contractAddress.toHex();
+
+  // dbStake.save();
 }
 
 export function withdrawStake(
@@ -60,21 +136,39 @@ export function withdrawStake(
       "-" +
       dbContract.version.toString()
   );
+  
   if (!dbStake) {
+    log.debug("Starting to create a missing stake with stakeId {}", [id.toString()]);
     createStake(
       id,
       nullAddress,
-      new BigInt(1),
+      BigInt.fromI32(2),
       nullAddress,
       stakeNumber,
-      new BigInt(1),
-      new BigInt(1),
-      contractAddress,
+      BigInt.fromI32(2),
+      BigInt.fromI32(2),
+      nullAddress,
       contractAddress
     );
-    return;
+    log.debug("Had to create a missing stake with stakeId {}", [id.toString()]);
+    let dbStake = Stake.load(
+      id.toString() +
+        "-" +
+        stakeNumber.toString() +
+        "-" +
+        dbContract.version.toString()
+    );
+    if (!dbStake){
+      log.critical("withdrawStake: stake with stakeId: {} doesn't exist!", [
+        id.toString()
+      ]);
+      return;
+    } else {
+      dbStake.withdrawnAt = withdrawnAt
+      dbStake.save();
+    }
+  } else {
+    dbStake.withdrawnAt = withdrawnAt;
+    dbStake.save();
   }
-
-  dbStake.withdrawnAt = withdrawnAt;
-  dbStake.save();
 }
