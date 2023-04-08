@@ -4,55 +4,224 @@ repository: https://github.com/opolis/opolis-subgraph
 schema:
   file: ./schema.graphql
 dataSources:
+
+  # - kind: ethereum/contract
+  #   name: CommonsWhitelist
+  #   network: {{network}}
+  #   source:
+  #     address: '{{whitelist_contract}}'
+  #     abi: CommonsWhitelist
+  #     startBlock: {{whitelist_startBlock}}
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.5
+  #     language: wasm/assemblyscript
+  #     entities: []
+  #     abis:
+  #       - name: CommonsWhitelist
+  #         file: ./abis/CommonsWhitelist.json
+  #     eventHandlers:
+  #       # event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
+  #       - event: OwnershipTransferred(indexed address,indexed address)
+  #         handler: handleOwnershipTransferred
+  #       # event AddedToWhitelist(address indexed account, bool employee);
+  #       - event: AddedToWhitelist(indexed address,bool)
+  #         handler: handleAddedToWhitelist
+  #       # event RemovedFromWhitelist(address indexed account);
+  #       - event: RemovedFromWhitelist(indexed address)
+  #         handler: handleRemovedFromWhitelist
+  #       # event UpdatedWhitelistAddress(address indexed opolisWallet, address indexed prefWallet);
+  #       - event: UpdatedWhitelistAddress(indexed address,indexed address)
+  #         handler: handleUpdatedWhitelistAddress
+  #       # event MassAdd(address[] indexed accounts, bool[] memberTypes);
+  #       - event: MassAdd(indexed address[],bool[])
+  #         handler: handleMassAdd
+  #     file: ./src/mappings/CommonsWhitelist.ts
+
+
+  # - kind: ethereum/contract
+  #   name: CommonsEasyStaking
+  #   network: {{network}}
+  #   source:
+  #     address: '{{staking_contract}}'
+  #     abi: CommonsEasyStaking
+  #     startBlock: {{staking_startBlock}}
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.5
+  #     language: wasm/assemblyscript
+  #     entities: []
+  #     abis:
+  #       - name: CommonsEasyStaking
+  #         file: ./abis/CommonsEasyStaking.json
+  #       - name: ERC20Contract
+  #         file: ./abis/ERC20Contract.json
+  #       - name: ERC20NameBytes
+  #         file: ./abis/ERC20NameBytes.json
+  #       - name: ERC20SymbolBytes
+  #         file: ./abis/ERC20SymbolBytes.json
+  #     eventHandlers:
+  #       # event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
+  #       - event: OwnershipTransferred(indexed address,indexed address)
+  #         handler: handleOwnershipTransferred
+  #       # event Stake(address staker, uint256 amountStaked, uint256 totalStaked);
+  #       - event: Stake(address,uint256,uint256)
+  #         handler: handleStake
+  #       # event unStake(address unstaker, uint256 amountUnstaked, uint256 totalStaked);
+  #       - event: unStake(address,uint256,uint256)
+  #         handler: handleUnstake
+  #     file: ./src/mappings/CommonsEasyStaking.ts
+
+  # - kind: ethereum/contract
+  #   name: MerkleRedeem
+  #   network: {{network}}
+  #   source:
+  #     address: '{{merkleRedeem_contract}}'
+  #     abi: MerkleRedeem
+  #     startBlock: {{merkleRedeem_startBlock}}
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.5
+  #     language: wasm/assemblyscript
+  #     entities: []
+  #     abis:
+  #       - name: MerkleRedeem
+  #         file: ./abis/MerkleRedeem.json
+  #     eventHandlers:
+  #       # event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
+  #       - event: OwnershipTransferred(indexed address,indexed address)
+  #         handler: handleOwnershipTransferred
+  #       # event RootAdded(address indexed depositor, uint256 indexed rewardEpoch, uint256 totalAllocation);
+  #       - event: RootAdded(indexed address,indexed uint256,uint256)
+  #         handler: handleRootAdded
+  #       # event Claimed(address indexed claimant, uint256 indexed rewardEpoch, uint256 balance);
+  #       - event: Claimed(indexed address,indexed uint256,uint256)
+  #         handler: handleClaimed
+  #     file: ./src/mappings/MerkleRedeem.ts
+
+  # - kind: ethereum/contract
+  #   name: OpolisPay
+  #   network: {{network}}
+  #   source:
+  #     address: '{{opolisPay_contract}}'
+  #     abi: OpolisPay
+  #     startBlock: {{opolisPay_startBlock}}
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.5
+  #     language: wasm/assemblyscript
+  #     entities: []
+  #     abis:
+  #       - name: OpolisPay
+  #         file: ./abis/OpolisPay.json
+  #       - name: ERC20Contract
+  #         file: ./abis/ERC20Contract.json
+  #       - name: ERC20NameBytes
+  #         file: ./abis/ERC20NameBytes.json
+  #       - name: ERC20SymbolBytes
+  #         file: ./abis/ERC20SymbolBytes.json
+  #     eventHandlers:
+  #       # event SetupComplete(address indexed destination, address indexed admin, address indexed helper, address[] tokens);
+  #       - event: SetupComplete(indexed address,indexed address,indexed address,address[])
+  #         handler: handleSetupCompleteV1
+  #       # event Staked(address indexed staker, address indexed token, uint256 amount, uint256 indexed memberId);
+  #       - event: Staked(indexed address,indexed address,uint256,indexed uint256)
+  #         handler: handleStaked
+  #       # event Paid(address indexed payor, address indexed token, uint256 indexed payrollId, uint256 amount); 
+  #       - event: Paid(indexed address,indexed address,indexed uint256,uint256)
+  #         handler: handlePaid
+  #       # event OpsPayrollWithdraw(address indexed token, uint256 indexed payrollId, uint256 amount);
+  #       - event: OpsPayrollWithdraw(indexed address,indexed uint256,uint256)
+  #         handler: handleOpsPayrollWithdraw
+  #       # event OpsStakeWithdraw(address indexed token, uint256 indexed stakeId, uint256 amount);
+  #       - event: OpsStakeWithdraw(indexed address,indexed uint256,uint256)
+  #         handler: handleOpsStakeWithdraw
+  #       # event Sweep(address indexed token, uint256 amount);
+  #       - event: Sweep(indexed address,uint256)
+  #         handler: handleSweep
+  #       # event NewDestination(address indexed oldDestination, address indexed destination);
+  #       - event: NewDestination(indexed address,indexed address)
+  #         handler: handleNewDestination
+  #       # event NewAdmin(address indexed oldAdmin, address indexed opolisAdmin);
+  #       - event: NewAdmin(indexed address,indexed address)
+  #         handler: handleNewAdmin
+  #       # event NewHelper(address indexed oldHelper, address indexed newHelper);
+  #       - event: NewHelper(indexed address,indexed address)
+  #         handler: handleNewHelper
+  #       # event NewTokens(address[] newTokens);
+  #       - event: NewTokens(address[])
+  #         handler: handleNewTokens
+  #     file: ./src/mappings/OpolisPay.ts
+
+  # - kind: ethereum/contract
+  #   name: OpolisPayV2
+  #   network: {{network}}
+  #   source:
+  #     address: '{{opolisPayV2_contract}}'
+  #     abi: OpolisPayV2
+  #     startBlock: {{opolisPayV2_startBlock}}
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.5
+  #     language: wasm/assemblyscript
+  #     entities: []
+  #     abis:
+  #       - name: OpolisPayV2
+  #         file: ./abis/OpolisPayV2.json
+  #       - name: ERC20Contract
+  #         file: ./abis/ERC20Contract.json
+  #       - name: ERC20NameBytes
+  #         file: ./abis/ERC20NameBytes.json
+  #       - name: ERC20SymbolBytes
+  #         file: ./abis/ERC20SymbolBytes.json
+  #     eventHandlers:
+  #       # event SetupComplete(address indexed destination, address indexed admin, address indexed helper, address[] tokens);
+  #       - event: SetupComplete(indexed address,indexed address,indexed address,address[])
+  #         handler: handleSetupCompleteV2
+  #       # event Staked(address indexed staker, address indexed token, uint256 amount, uint256 indexed memberId, uint256 stakeNumber);
+  #       - event: Staked(indexed address,indexed address,uint256,indexed uint256,uint256)
+  #         handler: handleStakedV2
+  #       # event Paid(address indexed payor, address indexed token, uint256 indexed payrollId, uint256 amount); 
+  #       - event: Paid(indexed address,indexed address,indexed uint256,uint256)
+  #         handler: handlePaid
+  #       # event OpsPayrollWithdraw(address indexed token, uint256 indexed payrollId, uint256 amount);
+  #       - event: OpsPayrollWithdraw(indexed address,indexed uint256,uint256)
+  #         handler: handleOpsPayrollWithdraw
+  #       # event OpsStakeWithdraw(address indexed token, uint256 indexed stakeId, uint256 stakeNumber, uint256 amount);
+  #       - event: OpsStakeWithdraw(indexed address,indexed uint256,uint256,uint256)
+  #         handler: handleOpsStakeWithdrawV2
+  #       # event Sweep(address indexed token, uint256 amount);
+  #       - event: Sweep(indexed address,uint256)
+  #         handler: handleSweep
+  #       # event NewDestination(address indexed oldDestination, address indexed destination);
+  #       - event: NewDestination(indexed address,indexed address)
+  #         handler: handleNewDestination
+  #       # event NewAdmin(address indexed oldAdmin, address indexed opolisAdmin);
+  #       - event: NewAdmin(indexed address,indexed address)
+  #         handler: handleNewAdmin
+  #       # event NewHelper(address indexed oldHelper, address indexed newHelper);
+  #       - event: NewHelper(indexed address,indexed address)
+  #         handler: handleNewHelper
+  #       # event NewTokens(address[] newTokens);
+  #       - event: NewTokens(address[])
+  #         handler: handleNewTokens
+  #     file: ./src/mappings/OpolisPay.ts
+
   - kind: ethereum/contract
-    name: CommonsWhitelist
+    name: OpolisPayV3
     network: {{network}}
     source:
-      address: '{{whitelist_contract}}'
-      abi: CommonsWhitelist
-      startBlock: {{whitelist_startBlock}}
+      address: '{{opolisPayV3_contract}}'
+      abi: OpolisPayV3
+      startBlock: {{opolisPayV3_startBlock}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities: []
       abis:
-        - name: CommonsWhitelist
-          file: ./abis/CommonsWhitelist.json
-      eventHandlers:
-        # event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
-        # event AddedToWhitelist(address indexed account, bool employee);
-        - event: AddedToWhitelist(indexed address,bool)
-          handler: handleAddedToWhitelist
-        # event RemovedFromWhitelist(address indexed account);
-        - event: RemovedFromWhitelist(indexed address)
-          handler: handleRemovedFromWhitelist
-        # event UpdatedWhitelistAddress(address indexed opolisWallet, address indexed prefWallet);
-        - event: UpdatedWhitelistAddress(indexed address,indexed address)
-          handler: handleUpdatedWhitelistAddress
-        # event MassAdd(address[] indexed accounts, bool[] memberTypes);
-        - event: MassAdd(indexed address[],bool[])
-          handler: handleMassAdd
-      file: ./src/mappings/CommonsWhitelist.ts
-
-
-  - kind: ethereum/contract
-    name: CommonsEasyStaking
-    network: {{network}}
-    source:
-      address: '{{staking_contract}}'
-      abi: CommonsEasyStaking
-      startBlock: {{staking_startBlock}}
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      entities: []
-      abis:
-        - name: CommonsEasyStaking
-          file: ./abis/CommonsEasyStaking.json
+        - name: OpolisPayV3
+          file: ./abis/OpolisPayV3.json
         - name: ERC20Contract
           file: ./abis/ERC20Contract.json
         - name: ERC20NameBytes
@@ -60,127 +229,13 @@ dataSources:
         - name: ERC20SymbolBytes
           file: ./abis/ERC20SymbolBytes.json
       eventHandlers:
-        # event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
-        # event Stake(address staker, uint256 amountStaked, uint256 totalStaked);
-        - event: Stake(address,uint256,uint256)
-          handler: handleStake
-        # event unStake(address unstaker, uint256 amountUnstaked, uint256 totalStaked);
-        - event: unStake(address,uint256,uint256)
-          handler: handleUnstake
-      file: ./src/mappings/CommonsEasyStaking.ts
-
-  - kind: ethereum/contract
-    name: MerkleRedeem
-    network: {{network}}
-    source:
-      address: '{{merkleRedeem_contract}}'
-      abi: MerkleRedeem
-      startBlock: {{merkleRedeem_startBlock}}
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      entities: []
-      abis:
-        - name: MerkleRedeem
-          file: ./abis/MerkleRedeem.json
-      eventHandlers:
-        # event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
-        # event RootAdded(address indexed depositor, uint256 indexed rewardEpoch, uint256 totalAllocation);
-        - event: RootAdded(indexed address,indexed uint256,uint256)
-          handler: handleRootAdded
-        # event Claimed(address indexed claimant, uint256 indexed rewardEpoch, uint256 balance);
-        - event: Claimed(indexed address,indexed uint256,uint256)
-          handler: handleClaimed
-      file: ./src/mappings/MerkleRedeem.ts
-
-  - kind: ethereum/contract
-    name: OpolisPay
-    network: {{network}}
-    source:
-      address: '{{opolisPay_contract}}'
-      abi: OpolisPay
-      startBlock: {{opolisPay_startBlock}}
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      entities: []
-      abis:
-        - name: OpolisPay
-          file: ./abis/OpolisPay.json
-        - name: ERC20Contract
-          file: ./abis/ERC20Contract.json
-        - name: ERC20NameBytes
-          file: ./abis/ERC20NameBytes.json
-        - name: ERC20SymbolBytes
-          file: ./abis/ERC20SymbolBytes.json
-      eventHandlers:
-        # event SetupComplete(address indexed destination, address indexed admin, address indexed helper, address[] tokens);
-        - event: SetupComplete(indexed address,indexed address,indexed address,address[])
-          handler: handleSetupCompleteV1
-        # event Staked(address indexed staker, address indexed token, uint256 amount, uint256 indexed memberId);
-        - event: Staked(indexed address,indexed address,uint256,indexed uint256)
-          handler: handleStaked
-        # event Paid(address indexed payor, address indexed token, uint256 indexed payrollId, uint256 amount); 
-        - event: Paid(indexed address,indexed address,indexed uint256,uint256)
-          handler: handlePaid
-        # event OpsPayrollWithdraw(address indexed token, uint256 indexed payrollId, uint256 amount);
-        - event: OpsPayrollWithdraw(indexed address,indexed uint256,uint256)
-          handler: handleOpsPayrollWithdraw
-        # event OpsStakeWithdraw(address indexed token, uint256 indexed stakeId, uint256 amount);
-        - event: OpsStakeWithdraw(indexed address,indexed uint256,uint256)
-          handler: handleOpsStakeWithdraw
-        # event Sweep(address indexed token, uint256 amount);
-        - event: Sweep(indexed address,uint256)
-          handler: handleSweep
-        # event NewDestination(address indexed oldDestination, address indexed destination);
-        - event: NewDestination(indexed address,indexed address)
-          handler: handleNewDestination
-        # event NewAdmin(address indexed oldAdmin, address indexed opolisAdmin);
-        - event: NewAdmin(indexed address,indexed address)
-          handler: handleNewAdmin
-        # event NewHelper(address indexed oldHelper, address indexed newHelper);
-        - event: NewHelper(indexed address,indexed address)
-          handler: handleNewHelper
-        # event NewTokens(address[] newTokens);
-        - event: NewTokens(address[])
-          handler: handleNewTokens
-      file: ./src/mappings/OpolisPay.ts
-
-  - kind: ethereum/contract
-    name: OpolisPayV2
-    network: {{network}}
-    source:
-      address: '{{opolisPayV2_contract}}'
-      abi: OpolisPayV2
-      startBlock: {{opolisPayV2_startBlock}}
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      entities: []
-      abis:
-        - name: OpolisPayV2
-          file: ./abis/OpolisPayV2.json
-        - name: ERC20Contract
-          file: ./abis/ERC20Contract.json
-        - name: ERC20NameBytes
-          file: ./abis/ERC20NameBytes.json
-        - name: ERC20SymbolBytes
-          file: ./abis/ERC20SymbolBytes.json
-      eventHandlers:
-        # event SetupComplete(address indexed destination, address indexed admin, address indexed helper, address[] tokens);
-        - event: SetupComplete(indexed address,indexed address,indexed address,address[])
-          handler: handleSetupCompleteV2
+        # event SetupComplete(address indexed admin, address indexed helper, address ethLiquidation, address[] tokens, address[] liqDestinations);
+        - event: SetupComplete(indexed address,indexed address,address,address[],address[])
+          handler: handleSetupCompleteV3
         # event Staked(address indexed staker, address indexed token, uint256 amount, uint256 indexed memberId, uint256 stakeNumber);
         - event: Staked(indexed address,indexed address,uint256,indexed uint256,uint256)
           handler: handleStakedV2
-        # event Paid(address indexed payor, address indexed token, uint256 indexed payrollId, uint256 amount); 
+        # event Paid(address indexed payor, address indexed token, uint256 indexed payrollId, uint256 amount);
         - event: Paid(indexed address,indexed address,indexed uint256,uint256)
           handler: handlePaid
         # event OpsPayrollWithdraw(address indexed token, uint256 indexed payrollId, uint256 amount);
@@ -192,16 +247,16 @@ dataSources:
         # event Sweep(address indexed token, uint256 amount);
         - event: Sweep(indexed address,uint256)
           handler: handleSweep
-        # event NewDestination(address indexed oldDestination, address indexed destination);
-        - event: NewDestination(indexed address,indexed address)
-          handler: handleNewDestination
+        # event NewDestination(address indexed oldDestination, address indexed token, address indexed destination);
+        - event: NewDestination(indexed address,indexed address,indexed address)
+          handler: handleNewDestinationV3
         # event NewAdmin(address indexed oldAdmin, address indexed opolisAdmin);
         - event: NewAdmin(indexed address,indexed address)
           handler: handleNewAdmin
         # event NewHelper(address indexed oldHelper, address indexed newHelper);
         - event: NewHelper(indexed address,indexed address)
           handler: handleNewHelper
-        # event NewTokens(address[] newTokens);
-        - event: NewTokens(address[])
-          handler: handleNewTokens
+        # event NewTokens(address[] newTokens, address[] newDestinations);
+        - event: NewTokens(address[],address[])
+          handler: handleNewTokensV3
       file: ./src/mappings/OpolisPay.ts

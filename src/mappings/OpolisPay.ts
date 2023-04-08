@@ -9,37 +9,52 @@ import {
   Paid,
   SetupComplete,
   Staked,
-  Sweep
+  Sweep,
 } from "../../generated/OpolisPay/OpolisPay";
 import {
   Staked as StakedV2,
-  OpsStakeWithdraw as OpsStakeWithdrawV2
+  OpsStakeWithdraw as OpsStakeWithdrawV2,
 } from "../../generated/OpolisPayV2/OpolisPayV2";
 import {
   addTokens,
   createOpolisPayContract,
   updateAdmin,
   updateDestination,
-  updateHelper
+  updateHelper,
 } from "../entities/contracts/OpolisPayContract";
 import { createNewAdminEvent } from "../entities/events/OpolisPay/NewAdminEvent";
-import { createNewDestinationEvent } from "../entities/events/OpolisPay/NewDestinationEvent";
+import {
+  createNewDestinationEvent,
+  createNewDestinationEventV3,
+} from "../entities/events/OpolisPay/NewDestinationEvent";
 import { createNewHelperEvent } from "../entities/events/OpolisPay/NewHelperEvent";
-import { createNewTokensEvent } from "../entities/events/OpolisPay/NewTokensEvent";
+import {
+  createNewTokensEvent,
+  createNewTokensEventV3,
+} from "../entities/events/OpolisPay/NewTokensEvent";
 import { createOpsPayrollWithdrawEvent } from "../entities/events/OpolisPay/OpsPayrollWithdrawEvent";
 import {
   createOpsStakeWithdrawEvent,
-  createOpsStakeWithdrawEventV2
+  createOpsStakeWithdrawEventV2,
 } from "../entities/events/OpolisPay/OpsStakeWithdrawEvent";
 import { createPaidEvent } from "../entities/events/OpolisPay/PaidEvent";
-import { createSetupCompleteEvent } from "../entities/events/OpolisPay/SetupCompleteEvent";
+import {
+  createSetupCompleteEvent,
+  createSetupCompleteEventV3,
+} from "../entities/events/OpolisPay/SetupCompleteEvent";
 import {
   createStakedEvent,
-  createStakedEventV2
+  createStakedEventV2,
 } from "../entities/events/OpolisPay/StakedEvent";
 import { createSweepEvent } from "../entities/events/OpolisPay/SweepEvent";
 import { createStake, withdrawStake } from "../entities/OpolisPayStake";
 import { createPayroll, withdrawPayroll } from "../entities/Payroll";
+import {
+  SetupComplete as SetupCompleteV3,
+  NewDestination as NewDestinationV3,
+  NewTokens as NewTokensV3,
+} from "../../generated/OpolisPayV3/OpolisPayV3";
+import { updateDestinationV3 } from "../entities/OpolisPayToken";
 
 export function handleSetupCompleteV1(event: SetupComplete): void {
   createOpolisPayContract(
@@ -159,4 +174,38 @@ export function handleNewHelper(event: NewHelper): void {
 export function handleNewTokens(event: NewTokens): void {
   addTokens(event.address, event.params.newTokens);
   createNewTokensEvent(event);
+}
+
+// new events for v3
+export function handleSetupCompleteV3(event: SetupCompleteV3): void {
+  createOpolisPayContract(
+    event.address,
+    event.params.ethLiquidation,
+    event.params.admin,
+    event.params.helper,
+    event.params.tokens,
+    event.block.timestamp,
+    3,
+    event.params.liqDestinations
+  );
+
+  createSetupCompleteEventV3(event);
+}
+
+export function handleNewDestinationV3(event: NewDestinationV3): void {
+  updateDestinationV3(
+    event.address,
+    event.params.token,
+    event.params.destination
+  );
+  createNewDestinationEventV3(event);
+}
+
+export function handleNewTokensV3(event: NewTokensV3): void {
+  addTokens(
+    event.address,
+    event.params.newTokens,
+    event.params.newDestinations
+  );
+  createNewTokensEventV3(event);
 }
