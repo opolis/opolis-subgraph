@@ -23,7 +23,7 @@
     "deploy:mumbai": "graph deploy --product hosted-service wswarren12/opolis-work-mumbai-hosted --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "deploy:mainnet": "graph deploy --product hosted-service wswarren12/opolis-mainnet --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "deploy:local": "graph deploy opolis/opolis-work-local --ipfs http://127.0.0.1:5001 --node http://127.0.0.1:8020",
-    "deploy:aurora-testnet": "graph deploy --product hosted-service wswarren12/opolis-work-aurora-testnet --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "deploy:aurora-testnet": "graph deploy --product hosted-service wswarren12/opolis-aurora-subgraph --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "deploy:aurora": "graph deploy --product hosted-service wswarren12/opolis-work-aurora --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "deploy-harmony": "graph deploy --node https://graph.t.hmny.io:8020 --ipfs http://graph.t.hmny.io:5001 harmony/blocks"
   },
