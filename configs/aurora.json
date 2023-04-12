@@ -1,5 +1,5 @@
 {
-    "network": "aurora",
-    "opolisPayV3_contract": "0xA6E644c1bBb0Dbb48Db66489FfC1Bc7538cF6B18",
-    "opolisPayV3_startBlock": 26718818
-  }
+  "network": "aurora",
+  "opolisPayV3_contract": "0xA6E644c1bBb0Dbb48Db66489FfC1Bc7538cF6B18",
+  "opolisPayV3_startBlock": 26718818
+}

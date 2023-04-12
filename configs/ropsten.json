@@ -1,7 +1,0 @@
-{
-  "network": "ropsten",
-  "opolisPay_contract": "0x695937229C8Ad9a424506aE0cb1bd23fF6F7330e",
-  "opolisPay_startBlock": 11902601,
-  "opolisPayV2_contract": "0x0000000000000000000000000000000000000000",
-  "opolisPayV2_startBlock": 0
-}
