@@ -6,7 +6,8 @@ export const ownerAddress = Address.fromString(
 );
 export const accounts = [
   Address.fromString("0xc0ffee254729296a45a3885639ac7e10f9d54979"),
-  Address.fromString("0x999999cf1046e68e36e1aa2e0e07105eddd1f08e")
+  Address.fromString("0x999999cf1046e68e36e1aa2e0e07105eddd1f08e"),
+  Address.fromString("0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5")
 ];
 
 export const workTokenMockData = new MockTokenData(

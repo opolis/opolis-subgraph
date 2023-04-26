@@ -4,6 +4,7 @@ repository: https://github.com/opolis/opolis-subgraph
 schema:
   file: ./schema.graphql
 dataSources:
+
   - kind: ethereum/contract
     name: CommonsWhitelist
     network: {{network}}
@@ -204,4 +205,58 @@ dataSources:
         # event NewTokens(address[] newTokens);
         - event: NewTokens(address[])
           handler: handleNewTokens
+      file: ./src/mappings/OpolisPay.ts
+
+  - kind: ethereum/contract
+    name: OpolisPayV3
+    network: {{network}}
+    source:
+      address: '{{opolisPayV3_contract}}'
+      abi: OpolisPayV3
+      startBlock: {{opolisPayV3_startBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities: []
+      abis:
+        - name: OpolisPayV3
+          file: ./abis/OpolisPayV3.json
+        - name: ERC20Contract
+          file: ./abis/ERC20Contract.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+      eventHandlers:
+        # event SetupComplete(address indexed admin, address indexed helper, address ethLiquidation, address[] tokens, address[] liqDestinations);
+        - event: SetupComplete(indexed address,indexed address,address,address[],address[])
+          handler: handleSetupCompleteV3
+        # event Staked(address indexed staker, address indexed token, uint256 amount, uint256 indexed memberId, uint256 stakeNumber);
+        - event: Staked(indexed address,indexed address,uint256,indexed uint256,uint256)
+          handler: handleStakedV2
+        # event Paid(address indexed payor, address indexed token, uint256 indexed payrollId, uint256 amount);
+        - event: Paid(indexed address,indexed address,indexed uint256,uint256)
+          handler: handlePaid
+        # event OpsPayrollWithdraw(address indexed token, uint256 indexed payrollId, uint256 amount);
+        - event: OpsPayrollWithdraw(indexed address,indexed uint256,uint256)
+          handler: handleOpsPayrollWithdraw
+        # event OpsStakeWithdraw(address indexed token, uint256 indexed stakeId, uint256 stakeNumber, uint256 amount);
+        - event: OpsStakeWithdraw(indexed address,indexed uint256,uint256,uint256)
+          handler: handleOpsStakeWithdrawV2
+        # event Sweep(address indexed token, uint256 amount);
+        - event: Sweep(indexed address,uint256)
+          handler: handleSweep
+        # event NewDestination(address indexed oldDestination, address indexed token, address indexed destination);
+        - event: NewDestination(indexed address,indexed address,indexed address)
+          handler: handleNewDestinationV3
+        # event NewAdmin(address indexed oldAdmin, address indexed opolisAdmin);
+        - event: NewAdmin(indexed address,indexed address)
+          handler: handleNewAdmin
+        # event NewHelper(address indexed oldHelper, address indexed newHelper);
+        - event: NewHelper(indexed address,indexed address)
+          handler: handleNewHelper
+        # event NewTokens(address[] newTokens, address[] newDestinations);
+        - event: NewTokens(address[],address[])
+          handler: handleNewTokensV3
       file: ./src/mappings/OpolisPay.ts

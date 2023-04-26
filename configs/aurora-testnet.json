@@ -1,0 +1,5 @@
+{
+  "network": "aurora-testnet",
+  "opolisPayV3_contract": "0x873973E48662351c12Bf03D9e22E87A87169e141",
+  "opolisPayV3_startBlock": 123235155
+}

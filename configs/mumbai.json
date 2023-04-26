@@ -9,5 +9,7 @@
   "opolisPay_contract": "0x347434c2BbBa4193bd56184bD768f4a4139Da39c",
   "opolisPay_startBlock": 24462265,
   "opolisPayV2_contract": "0xbA77cd256d0F650ECe87BF4CC25C425C0332F5e9",
-  "opolisPayV2_startBlock": 26120519
+  "opolisPayV2_startBlock": 26120519,
+  "opolisPayV3_contract": "0x84ceFE79e01FF93C623d34610A651Fc221458630",
+  "opolisPayV3_startBlock": 34266899
 }

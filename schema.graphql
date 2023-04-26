@@ -70,6 +70,7 @@ type Stake @entity {
 type OpolisPayToken @entity {
   id: ID! # opolisPayId-tokenId
   token: Token!
+  liqDestination: Bytes
   opolisPayContract: OpolisPayContract!
   createdAt: BigInt!
 }
@@ -80,6 +81,7 @@ type OpolisPayContract implements IContract @entity {
   opolisHelper: Bytes!
   destination: Bytes!
   supportedTokens: [OpolisPayToken!]! @derivedFrom(field: "opolisPayContract")
+  liqDestinations: [Bytes!]
   createdAt: BigInt!
   version: Int!
 }
@@ -259,5 +261,26 @@ type NewHelperEvent implements IEvent @entity {
 type NewTokensEvent implements IEvent @entity {
   id: ID!
   newTokens: [Bytes!]!
+  newDestinations: [Bytes!]
+  timestamp: BigInt!
+}
+
+### OpolisPay ContractV3 Events
+
+type SetupCompleteEventV3 implements IEvent @entity {
+  id: ID!
+  admin: Bytes! # address of the admin account
+  helper: Bytes! # address of the helper account
+  ethLiquidation: Bytes! # address of the destination for eth
+  supportedTokens: [Bytes!]!
+  liqDestinations: [Bytes!]!
+  timestamp: BigInt!
+}
+
+type NewDestinationEventV3 implements IEvent @entity {
+  id: ID!
+  token: Token!
+  oldDestination: Bytes!
+  destination: Bytes!
   timestamp: BigInt!
 }

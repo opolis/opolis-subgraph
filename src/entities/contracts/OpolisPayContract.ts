@@ -9,7 +9,8 @@ export function createOpolisPayContract(
   helper: Address,
   tokens: Address[],
   createdAt: BigInt,
-  version: i32
+  version: i32,
+  liqDestinations: Address[] | null = null
 ): void {
   let dbContract = new OpolisPayContract(address.toHex());
   dbContract.destination = destination;
@@ -18,7 +19,7 @@ export function createOpolisPayContract(
   dbContract.createdAt = createdAt;
   dbContract.version = version;
   dbContract.save();
-  addTokens(address, tokens);
+  addTokens(address, tokens, liqDestinations);
 }
 
 export function updateDestination(
@@ -28,7 +29,7 @@ export function updateDestination(
   let dbContract = OpolisPayContract.load(contractAddress.toHex());
   if (!dbContract) {
     log.critical("updateDestination: contract not found at {}", [
-      contractAddress.toHex()
+      contractAddress.toHex(),
     ]);
     return;
   }
@@ -43,7 +44,7 @@ export function updateAdmin(
   let dbContract = OpolisPayContract.load(contractAddress.toHex());
   if (!dbContract) {
     log.critical("updateAdmin: contract not found at {}", [
-      contractAddress.toHex()
+      contractAddress.toHex(),
     ]);
     return;
   }
@@ -58,7 +59,7 @@ export function updateHelper(
   let dbContract = OpolisPayContract.load(contractAddress.toHex());
   if (!dbContract) {
     log.critical("updateDestination: contract not found at {}", [
-      contractAddress.toHex()
+      contractAddress.toHex(),
     ]);
     return;
   }
@@ -66,16 +67,24 @@ export function updateHelper(
   dbContract.save();
 }
 
-export function addTokens(contractAddress: Address, tokens: Address[]): void {
+export function addTokens(
+  contractAddress: Address,
+  tokens: Address[],
+  liqDestinations: Address[] | null = null
+): void {
   let dbContract = OpolisPayContract.load(contractAddress.toHex());
   if (!dbContract) {
     log.critical("addTokens: contract not found at {}", [
-      contractAddress.toHex()
+      contractAddress.toHex(),
     ]);
     return;
   }
   for (let i = 0; i < tokens.length; i++) {
-    ensureOpolisPayToken(tokens[i], contractAddress);
+    if (liqDestinations) {
+      ensureOpolisPayToken(tokens[i], contractAddress, liqDestinations[i]);
+    } else {
+      ensureOpolisPayToken(tokens[i], contractAddress);
+    }
   }
   dbContract.save();
 }
