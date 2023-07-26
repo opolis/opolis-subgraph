@@ -31,7 +31,7 @@ export function updateDestinationV3(
   let dbOpolisPayToken = OpolisPayToken.load(opolisPayTokenId);
 
   if (!dbOpolisPayToken) {
-    log.critical("updateDestinationV3: token not found at {}", [
+    log.warning("updateDestinationV3: token not found at {}", [
       opolisPayTokenId,
     ]);
     return;

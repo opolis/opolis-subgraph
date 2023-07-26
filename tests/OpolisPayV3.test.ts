@@ -1,4 +1,4 @@
-import { assert, test } from "matchstick-as";
+import { assert, clearStore, test } from "matchstick-as";
 import {
   handleSetupCompleteV3,
   handleNewDestinationV3,
@@ -11,6 +11,7 @@ import {
   createNewTokens,
   createSetupCompleteV3,
 } from "./helpers/mockers/events/OpolisPayV3";
+import { Address } from "@graphprotocol/graph-ts";
 
 test("can handle SetupCompleteV3", () => {
   let event = createSetupCompleteV3(
@@ -92,5 +93,28 @@ test("can handle NewDestination", () => {
     opolisPayMockData.address.toHex() + "-" + usdcMockData.address.toHex(),
     "liqDestination",
     accounts[2].toHex()
+  );
+});
+
+test("can handle NewDestination with nonexistant token", () => {
+  clearStore();
+  let badToken = Address.fromString(
+    "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
+  );
+  let event = createNewDestination(accounts[0], badToken, accounts[2]);
+
+  opolisPayMockData.supportedTokens.forEach((token) => {
+    mockToken(token);
+  });
+
+  handleNewDestinationV3(event);
+
+  assert.notInStore(
+    "OpolisPayToken",
+    opolisPayMockData.address.toHex() + "-" + badToken.toHex()
+  );
+  assert.notInStore(
+    "NewDestinationEventV3",
+    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   );
 });
